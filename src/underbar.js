@@ -100,10 +100,12 @@
   // Produce a duplicate-free version of the array.
   _.uniq = function(array, isSorted, iterator) {
     var results = [];
+    var final = [];
     if (iterator === undefined) {
       _.each(array, function(i) {
         if(_.indexOf(results, i) === -1) {
           results.push(i)
+          final.push(i);
         }
       });
       return results;
@@ -111,14 +113,10 @@
       _.each(array, function(i) {
         if(_.indexOf(results, iterator(i)) === -1) {
           results.push(iterator(i))
+          final.push(i)
         }
       })
-      var count = 1;
-      for (var i = 0; i < results.length; i++) {
-        results[i] = count;
-        count ++;
-      }
-      return results;
+      return final;
     }
   };
 
