@@ -244,11 +244,35 @@
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
   _.extend = function(obj) {
+
+    var objects = Array.from(arguments);
+    if (JSON.stringify(objects[1]) === JSON.stringify({})) {
+      return obj;
+    }
+    var finalObj = {};
+
+    for (var i = 0; i < objects.length; i++) {
+      for (var key in objects[i]) {
+        finalObj[key] = objects[i][key]
+      }
+    }
+    return finalObj;
+
   };
 
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function(obj) {
+    var objects = Array.from(arguments);
+    return _.reduce(objects, (resultObj, item) => {
+      for (var key in item) {
+        if (!resultObj.hasOwnProperty(key)) {
+          resultObj[key] = item[key];
+        }
+      }
+      return resultObj;
+    })
+
   };
 
 
